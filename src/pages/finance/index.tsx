@@ -1,4 +1,5 @@
 import MainLayout from "@/components/layouts/MainLayout";
+import Finance from "@/components/views/Finance";
 
 const FinancePage = () => {
   return (
@@ -6,7 +7,7 @@ const FinancePage = () => {
       title={"Finance"}
       description="Catat dan kelola semua pemasukan serta pengeluaranmu dengan mudah. "
     >
-      finance
+      <Finance />
     </MainLayout>
   );
 };
