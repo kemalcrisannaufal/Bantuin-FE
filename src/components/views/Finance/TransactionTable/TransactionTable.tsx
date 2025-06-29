@@ -6,6 +6,9 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Pagination,
+  Select,
+  SelectItem,
   Spinner,
   Table,
   TableBody,
@@ -17,36 +20,76 @@ import {
 import { TABLE_COLUMNS } from "./transactionTable.constants";
 import { toDateStandardFromAPI } from "@/utils/date";
 import { CiMenuKebab } from "react-icons/ci";
-import { Dispatch, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { convertToIDR } from "@/utils/currency";
+import { LIMIT_LIST } from "@/constants/queryRouter.constants";
 
 interface Proptypes {
+  currentLimit: number;
+  currentPage: number;
+  handleChangeLimit: (e: ChangeEvent<HTMLSelectElement>) => void;
+  handleChangePage: (page: number) => void;
+  totalPage: number;
   isLoading: boolean;
   onOpenDeleteModal: () => void;
   onOpenUpdateModal: () => void;
+  setEnableAction: Dispatch<
+    SetStateAction<{ update: boolean; delete: boolean }>
+  >;
   setSelectedId: Dispatch<SetStateAction<string>>;
   transactionData: ITransaction[] | undefined;
 }
 
 const TransactionTable = (props: Proptypes) => {
   const {
+    currentLimit,
+    currentPage,
+    handleChangeLimit,
+    handleChangePage,
+    totalPage,
     isLoading,
     onOpenDeleteModal,
     onOpenUpdateModal,
+    setEnableAction,
     setSelectedId,
     transactionData,
   } = props;
+
+  const bottomContent = (
+    <div className="flex justify-between items-center">
+      <Select
+        items={LIMIT_LIST}
+        disallowEmptySelection
+        className="max-w-36"
+        defaultSelectedKeys={`${currentLimit}`}
+        startContent={<p className="text-sm">Limit:</p>}
+        onChange={(e) => handleChangeLimit(e)}
+      >
+        {(limit) => <SelectItem>{limit.label}</SelectItem>}
+      </Select>
+
+      {totalPage > 1 && (
+        <Pagination
+          initialPage={currentPage}
+          total={totalPage}
+          isCompact={totalPage > 2}
+          onChange={(page) => handleChangePage(page)}
+          className="cursor-pointer"
+        />
+      )}
+    </div>
+  );
+
   return (
-    <div className="mt-10">
-      <h2 className="mb-2 font-semibold text-primary text-xl">
-        Transaksi Terbaru
-      </h2>
-      <Table aria-label="Transaction table">
+    <>
+      <Table aria-label="Transaction table" bottomContent={bottomContent}>
         <TableHeader columns={TABLE_COLUMNS}>
           {(column) => (
             <TableColumn key={column.key}>{column.label}</TableColumn>
           )}
         </TableHeader>
         <TableBody
+          emptyContent={"Data transaksi tidak ditemukan"}
           isLoading={isLoading}
           items={transactionData || []}
           loadingContent={
@@ -66,7 +109,7 @@ const TransactionTable = (props: Proptypes) => {
                   case "category":
                     return <TableCell>{item.category}</TableCell>;
                   case "amount":
-                    return <TableCell>{item.amount}</TableCell>;
+                    return <TableCell>{convertToIDR(item.amount)}</TableCell>;
                   case "type":
                     return (
                       <TableCell>
@@ -81,6 +124,8 @@ const TransactionTable = (props: Proptypes) => {
                     );
                   case "name":
                     return <TableCell>{item.name}</TableCell>;
+                  case "description":
+                    return <TableCell>{item.description}</TableCell>;
                   case "actions":
                     return (
                       <TableCell>
@@ -98,6 +143,10 @@ const TransactionTable = (props: Proptypes) => {
                               className="bg-transparent text-left"
                               onPress={() => {
                                 setSelectedId(`${item._id}`);
+                                setEnableAction({
+                                  update: true,
+                                  delete: false,
+                                });
                                 onOpenUpdateModal();
                               }}
                             >
@@ -109,6 +158,10 @@ const TransactionTable = (props: Proptypes) => {
                               as={Button}
                               onPress={() => {
                                 setSelectedId(`${item._id}`);
+                                setEnableAction({
+                                  update: false,
+                                  delete: true,
+                                });
                                 onOpenDeleteModal();
                               }}
                               className="bg-transparent text-left"
@@ -127,7 +180,7 @@ const TransactionTable = (props: Proptypes) => {
           )}
         </TableBody>
       </Table>
-    </div>
+    </>
   );
 };
 

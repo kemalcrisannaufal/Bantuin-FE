@@ -16,12 +16,13 @@ import { Controller } from "react-hook-form";
 import {
   EXPENSE_CATEGORIES,
   INCOME_CATEGORIES,
-} from "@/constants/list.constants";
+} from "@/constants/transactionCategory.constants";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import useUpdateFinanceModal from "./useUpdateFinanceModal";
 import { toInputDate } from "@/utils/date";
 
 interface Proptypes {
+  enableUpdate: boolean;
   isOpen: boolean;
   onOpenChange: () => void;
   onClose: () => void;
@@ -32,6 +33,7 @@ interface Proptypes {
 
 const UpdateFinanceModal = (props: Proptypes) => {
   const {
+    enableUpdate,
     isOpen,
     onClose,
     onOpenChange,
@@ -52,7 +54,7 @@ const UpdateFinanceModal = (props: Proptypes) => {
     handleUpdateTransaction,
     isPendingUpdateTransaction,
     isSuccessUpdateTransaction,
-  } = useUpdateFinanceModal(updatedId);
+  } = useUpdateFinanceModal(updatedId, enableUpdate);
 
   useEffect(() => {
     if (transactionDetailData) {

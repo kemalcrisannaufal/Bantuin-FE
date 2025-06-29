@@ -1,20 +1,6 @@
+import { MONTHS } from "@/constants/list.constants";
 import { DateValue } from "@heroui/react";
 import { parseDate } from "@internationalized/date";
-
-const monthNames = [
-  "Januari",
-  "Februari",
-  "Maret",
-  "April",
-  "Mei",
-  "Juni",
-  "Juli",
-  "Agustus",
-  "September",
-  "Oktober",
-  "November",
-  "Desember",
-];
 
 const toDateStandard = (date: DateValue) => {
   const year = date.year;
@@ -33,7 +19,7 @@ const toDateStandardFromAPI = (date: string) => {
   const newDate = new Date(formattedDate);
 
   const year = newDate.getFullYear();
-  const month = monthNames[newDate.getMonth()];
+  const month = MONTHS[newDate.getMonth()].label;
   const day = newDate.getDay();
 
   return `${day.toString().padStart(2, "0")} ${month}, ${year}`;

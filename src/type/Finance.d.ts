@@ -17,4 +17,11 @@ interface ITransactionForm
   date: DateValue;
 }
 
-export { ITransaction, ITransactionForm };
+interface ITransactionFilter {
+  category: string;
+  type: "" | "income" | "expense";
+  month: number;
+  year: number;
+}
+
+export { ITransaction, ITransactionForm, ITransactionFilter };

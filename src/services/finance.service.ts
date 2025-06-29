@@ -6,7 +6,8 @@ const financeServices = {
   createTransaction: (payload: ITransaction) =>
     instance.post(`${endpoint.FINANCE}`, payload),
   getTransactionById: (id: string) => instance.get(`${endpoint.FINANCE}/${id}`),
-  getTransactions: () => instance.get(`${endpoint.FINANCE}`),
+  getTransactions: (params?: string) =>
+    instance.get(`${endpoint.FINANCE}?${params}`),
   updateTransaction: (payload: ITransaction, id: string) =>
     instance.put(`${endpoint.FINANCE}/${id}`, payload),
   deleteTransaction: (id: string) =>

@@ -21,7 +21,7 @@ const MainLayout = (props: Proptypes) => {
         <MainLayoutSidebar isOpen={isSidebarOpen} />
 
         <div className="px-8 py-10 w-full">
-          <div className="flex justify-between items-center mb-10">
+          <div className="flex justify-between items-center mb-5 md:mb-10">
             <div className="w-[80%]">
               <h1 className="font-bold text-primary text-3xl">{title}</h1>
               <p className="mt-1 text-foreground-600 text-xs md:text-base">

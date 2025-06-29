@@ -15,7 +15,7 @@ const updateFinanceSchema = Yup.object().shape({
   category: Yup.string().required(),
 });
 
-const useUpdateFinanceModal = (id: string) => {
+const useUpdateFinanceModal = (id: string, enableUpdate: boolean) => {
   const getTransactionById = async (): Promise<ITransaction> => {
     const { data } = await financeServices.getTransactionById(id);
     return data.data;
@@ -27,7 +27,7 @@ const useUpdateFinanceModal = (id: string) => {
   } = useQuery({
     queryKey: ["getTransactionById", id],
     queryFn: getTransactionById,
-    enabled: !!id,
+    enabled: id !== "" && enableUpdate,
   });
 
   const {

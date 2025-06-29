@@ -12,6 +12,10 @@ const TABLE_COLUMNS = [
     label: "Nama Transaksi",
   },
   {
+    key: "description",
+    label: "Deskripsi Transaksi",
+  },
+  {
     key: "amount",
     label: "Nominal Transaksi",
   },

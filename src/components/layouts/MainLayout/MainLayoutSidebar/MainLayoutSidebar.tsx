@@ -23,8 +23,8 @@ const MainLayoutSidebar = (props: Proptypes) => {
         exit={{ x: "-100%" }}
         transition={{ duration: 0.5 }}
         className={cn(
-          "top-0 fixed md:sticky flex flex-col justify-between bg-neutral-200 p-5 w-full max-w-[300px] h-screen z-50",
-          !isOpen && "hidden md:flex"
+          "top-0 fixed lg:sticky flex flex-col justify-between bg-neutral-200 p-5 w-full max-w-[300px] h-screen z-50",
+          !isOpen && "hidden lg:flex"
         )}
       >
         <div>

@@ -1,84 +1,26 @@
-export interface ICategory {
-  key: string;
-  label: string;
-}
+const DEFAULT_MONTH = new Date().getMonth() + 1;
+const DEAFULT_YEAR = new Date().getFullYear();
 
-const INCOME_CATEGORIES: ICategory[] = [
-  {
-    key: "Gaji",
-    label: "Gaji",
-  },
-  {
-    key: "Bonus",
-    label: "Bonus",
-  },
-  {
-    key: "Freelance",
-    label: "Freelance",
-  },
-  {
-    key: "Investasi",
-    label: "Investasi",
-  },
-  {
-    key: "Usaha",
-    label: "Usaha",
-  },
-  {
-    key: "Hadiah",
-    label: "Hadiah",
-  },
-  {
-    key: "Lainnya",
-    label: "Lainnya",
-  },
-] as const;
+const MONTHS = [
+  { key: "1", label: "Januari" },
+  { key: "2", label: "Februari" },
+  { key: "3", label: "Maret" },
+  { key: "4", label: "April" },
+  { key: "5", label: "Mei" },
+  { key: "6", label: "Juni" },
+  { key: "7", label: "Juli" },
+  { key: "8", label: "Agustus" },
+  { key: "9", label: "September" },
+  { key: "10", label: "Oktober" },
+  { key: "11", label: "November" },
+  { key: "12", label: "Desember" },
+];
 
-const EXPENSE_CATEGORIES: ICategory[] = [
-  {
-    key: "Makanan & Minuman",
-    label: "Makanan & Minuman",
-  },
-  {
-    key: "Transportasi",
-    label: "Transportasi",
-  },
-  {
-    key: "Perumahan (Listrik/Air/Internet)",
-    label: "Perumahan (Listrik/Air/Internet)",
-  },
-  {
-    key: "Belanja",
-    label: "Belanja",
-  },
-  {
-    key: "Hiburan",
-    label: "Hiburan",
-  },
-  {
-    key: "Kesehatan",
-    label: "Kesehatan",
-  },
-  {
-    key: "Pendidikan",
-    label: "Pendidikan",
-  },
-  {
-    key: "Travel",
-    label: "Travel",
-  },
-  {
-    key: "Subscription (Spotify/Netflix)",
-    label: "Subscription (Spotify/Netflix)",
-  },
-  {
-    key: "Donasi",
-    label: "Donasi",
-  },
-  {
-    key: "Lainnya",
-    label: "Lainnya",
-  },
-] as const;
+const YEARS = Array.from({ length: 8 }, (_, i) => {
+  return {
+    key: String(new Date().getFullYear() - 2 + i),
+    label: String(new Date().getFullYear() - 2 + i),
+  };
+});
 
-export { INCOME_CATEGORIES, EXPENSE_CATEGORIES };
+export { DEFAULT_MONTH, DEAFULT_YEAR, MONTHS, YEARS };

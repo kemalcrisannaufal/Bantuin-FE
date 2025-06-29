@@ -11,7 +11,7 @@ const HamburgerMenu = (props: Proptypes) => {
   return (
     <button
       aria-label="hamburger-menu-button"
-      className="md:hidden relative w-10 h-6 cursor-pointer"
+      className="lg:hidden relative w-10 h-6 cursor-pointer"
       onClick={() => setIsOpen(!isOpen)}
     >
       <span

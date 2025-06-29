@@ -16,7 +16,7 @@ import { Controller } from "react-hook-form";
 import {
   EXPENSE_CATEGORIES,
   INCOME_CATEGORIES,
-} from "@/constants/list.constants";
+} from "@/constants/transactionCategory.constants";
 import useAddFinanceModal from "./useAddFinanceModal";
 import { useEffect } from "react";
 
@@ -50,7 +50,9 @@ const AddFinanceModal = (props: Proptypes) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} onOpenChange={onOpenChange}>
       <ModalContent>
-        <ModalHeader>Tambah Pendapatan</ModalHeader>
+        <ModalHeader>
+          Tambah {type === "income" ? "Pendapatan" : "Pengeluaran"}
+        </ModalHeader>
         <ModalBody>
           <form
             onSubmit={handleSubmit(handleAddTransaction)}
