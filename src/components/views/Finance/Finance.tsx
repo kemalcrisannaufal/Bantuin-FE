@@ -10,6 +10,7 @@ import UpdateFinanceModal from "./UpdateFinanceModal";
 import { useEffect } from "react";
 import TransactionFilter from "./TransactionFilter";
 import TransactionOverview from "./TransactionOverview";
+import TransactionVisualization from "./TransactionVisualization";
 
 const Finance = () => {
   const {
@@ -22,6 +23,13 @@ const Finance = () => {
     handleChangeCategory,
     setUrl,
 
+    expenseTotal,
+    incomeTotal,
+    isLoadingTransactionTotalData,
+
+    isLoadingSummaryCategoriesData,
+    summaryCategoriesData,
+
     filter,
     resetFilter,
 
@@ -32,12 +40,8 @@ const Finance = () => {
     selectedId,
     setEnableAction,
     setFinanceType,
-    transactionData,
     setSelectedId,
-
-    incomeTotal,
-    expenseTotal,
-    isLoadingTransactionTotalData,
+    transactionData,
   } = useFinance();
 
   useEffect(() => {
@@ -64,53 +68,58 @@ const Finance = () => {
         resetFilter={resetFilter}
       />
 
-      <div>
-        <div className="mt-5 md:mt-10">
-          <div className="flex justify-between items-center mb-5">
-            <h2 className="mb-2 font-semibold text-primary text-xl">
-              Transaksi Terbaru
-            </h2>
+      <TransactionVisualization
+        incomeTotal={incomeTotal}
+        isLoading={isLoadingSummaryCategoriesData}
+        expenseTotal={expenseTotal}
+        categoriesSummary={summaryCategoriesData}
+      />
 
-            <div className="flex md:flex-row flex-col gap-5">
-              <Button
-                color="primary"
-                variant="bordered"
-                startContent={<FaPlus />}
-                onPress={() => {
-                  setFinanceType("income");
-                  addFinanceModal.onOpen();
-                }}
-              >
-                Tambah Pendapatan
-              </Button>
-              <Button
-                color="primary"
-                variant="flat"
-                startContent={<FaPlus />}
-                onPress={() => {
-                  setFinanceType("expense");
-                  addFinanceModal.onOpen();
-                }}
-              >
-                Tambah Pengeluaran
-              </Button>
-            </div>
+      <div className="mt-5 md:mt-10">
+        <div className="flex justify-between items-center mb-5">
+          <h2 className="mb-2 font-semibold text-primary text-xl">
+            Transaksi Terbaru
+          </h2>
+
+          <div className="flex md:flex-row flex-col gap-5">
+            <Button
+              color="primary"
+              variant="bordered"
+              startContent={<FaPlus />}
+              onPress={() => {
+                setFinanceType("income");
+                addFinanceModal.onOpen();
+              }}
+            >
+              Tambah Pendapatan
+            </Button>
+            <Button
+              color="primary"
+              variant="flat"
+              startContent={<FaPlus />}
+              onPress={() => {
+                setFinanceType("expense");
+                addFinanceModal.onOpen();
+              }}
+            >
+              Tambah Pengeluaran
+            </Button>
           </div>
-
-          <TransactionTable
-            isLoading={isPendingTransactions}
-            currentLimit={Number(currentLimit)}
-            currentPage={Number(currentPage)}
-            handleChangeLimit={handleChangeLimit}
-            handleChangePage={handleChangePage}
-            totalPage={Number(transactionData?.pagination.totalPage)}
-            transactionData={transactionData?.data}
-            setEnableAction={setEnableAction}
-            setSelectedId={setSelectedId}
-            onOpenDeleteModal={deleteFinanceModal.onOpen}
-            onOpenUpdateModal={updateFinanceModal.onOpen}
-          />
         </div>
+
+        <TransactionTable
+          isLoading={isPendingTransactions}
+          currentLimit={Number(currentLimit)}
+          currentPage={Number(currentPage)}
+          handleChangeLimit={handleChangeLimit}
+          handleChangePage={handleChangePage}
+          totalPage={Number(transactionData?.pagination.totalPage)}
+          transactionData={transactionData?.data}
+          setEnableAction={setEnableAction}
+          setSelectedId={setSelectedId}
+          onOpenDeleteModal={deleteFinanceModal.onOpen}
+          onOpenUpdateModal={updateFinanceModal.onOpen}
+        />
       </div>
 
       {financeType !== "" && (

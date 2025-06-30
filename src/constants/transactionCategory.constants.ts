@@ -5,78 +5,78 @@ export interface ICategory {
 
 const INCOME_CATEGORIES: ICategory[] = [
   {
-    key: "Gaji",
+    key: "gaji",
     label: "Gaji",
   },
   {
-    key: "Bonus",
+    key: "bonus",
     label: "Bonus",
   },
   {
-    key: "Freelance",
+    key: "freelance",
     label: "Freelance",
   },
   {
-    key: "Investasi",
+    key: "investasi",
     label: "Investasi",
   },
   {
-    key: "Usaha",
+    key: "usaha",
     label: "Usaha",
   },
   {
-    key: "Hadiah",
+    key: "hadiah",
     label: "Hadiah",
   },
   {
-    key: "Lainnya",
+    key: "lainnya",
     label: "Lainnya",
   },
 ] as const;
 
 const EXPENSE_CATEGORIES: ICategory[] = [
   {
-    key: "Makanan & Minuman",
+    key: "makanan/minuman",
     label: "Makanan & Minuman",
   },
   {
-    key: "Transportasi",
+    key: "transportasi",
     label: "Transportasi",
   },
   {
-    key: "Perumahan (Listrik/Air/Internet)",
-    label: "Perumahan (Listrik/Air/Internet)",
+    key: "tagihan (listrik/air/internet)",
+    label: "Tagihan (Listrik/Air/Internet)",
   },
   {
-    key: "Belanja",
+    key: "belanja",
     label: "Belanja",
   },
   {
-    key: "Hiburan",
+    key: "hiburan",
     label: "Hiburan",
   },
   {
-    key: "Kesehatan",
+    key: "kesehatan",
     label: "Kesehatan",
   },
   {
-    key: "Pendidikan",
+    key: "pendidikan",
     label: "Pendidikan",
   },
   {
-    key: "Travel",
+    key: "travel",
     label: "Travel",
   },
   {
-    key: "Subscription (Spotify/Netflix)",
+    key: "langganan (Spotify/Netflix)",
     label: "Subscription (Spotify/Netflix)",
   },
   {
-    key: "Donasi",
+    key: "donasi",
     label: "Donasi",
   },
   {
-    key: "Lainnya",
+    key: "lainnya",
     label: "Lainnya",
   },
 ] as const;

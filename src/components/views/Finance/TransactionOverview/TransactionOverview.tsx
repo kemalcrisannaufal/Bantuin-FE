@@ -11,7 +11,7 @@ interface Proptypes {
 const TransactionOverview = (props: Proptypes) => {
   const { isLoading, incomeTotal, expenseTotal } = props;
   return (
-    <Card className="gap-2 grid md:grid-cols-2 grid-flow-col auto-cols-max bg-neutral-200 mb-5 p-1 w-full overflow-x-auto hide-scrollbar">
+    <Card className="gap-2 grid md:grid-cols-2 grid-flow-col auto-cols-max bg-neutral-200 p-1 w-full overflow-x-auto hide-scrollbar">
       <Card className="p-2 w-full">
         <CardBody>
           <div className="flex items-center gap-2 mb-2">

@@ -23,4 +23,22 @@ const YEARS = Array.from({ length: 8 }, (_, i) => {
   };
 });
 
-export { DEFAULT_MONTH, DEAFULT_YEAR, MONTHS, YEARS };
+const COLORS = [
+  "#00B4FF",
+  "#00C2A2",
+  "#7F5AF0",
+  "#00E5FF",
+  "#00E3B0",
+  "#0090FF",
+  "#A162E8",
+  "#00D084",
+  "#FF7D00",
+  "#FFC400",
+  "#FF5E5E",
+  "#FF3E9D",
+  "#FF2D55",
+  "#FF9500",
+  "#FF2A6D",
+];
+
+export { DEFAULT_MONTH, DEAFULT_YEAR, MONTHS, YEARS, COLORS };

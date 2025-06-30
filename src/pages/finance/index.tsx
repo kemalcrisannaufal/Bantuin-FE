@@ -4,7 +4,7 @@ import Finance from "@/components/views/Finance";
 const FinancePage = () => {
   return (
     <MainLayout
-      title={"Finance"}
+      title={"Keuangan"}
       description="Catat dan kelola semua pemasukan serta pengeluaranmu dengan mudah. "
     >
       <Finance />

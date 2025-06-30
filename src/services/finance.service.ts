@@ -14,6 +14,8 @@ const financeServices = {
     instance.delete(`${endpoint.FINANCE}/${id}`),
   getTotal: (params?: string) =>
     instance.get(`${endpoint.FINANCE}/totals?${params}`),
+  getSummaryByCategories: (params?: string) =>
+    instance.get(`${endpoint.FINANCE}/summary/categories?${params}`),
 };
 
 export default financeServices;

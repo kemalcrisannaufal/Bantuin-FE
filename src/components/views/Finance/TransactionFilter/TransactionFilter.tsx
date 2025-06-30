@@ -28,8 +28,10 @@ const TransactionFilter = (props: Proptypes) => {
   } = props;
 
   return (
-    <>
-      <h2 className="mb-2 font-semibold text-primary">Filter Transaksi</h2>
+    <div className="mt-5 md:mt-10">
+      <h2 className="mb-2 font-semibold text-primary text-xl">
+        Filter Transaksi
+      </h2>
 
       <div className="flex flex-wrap items-center gap-2 w-full">
         <Select
@@ -100,7 +102,7 @@ const TransactionFilter = (props: Proptypes) => {
           Hapus Filter
         </Button>
       </div>
-    </>
+    </div>
   );
 };
 

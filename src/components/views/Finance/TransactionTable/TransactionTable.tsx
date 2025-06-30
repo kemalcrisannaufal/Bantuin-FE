@@ -23,6 +23,7 @@ import { CiMenuKebab } from "react-icons/ci";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { convertToIDR } from "@/utils/currency";
 import { LIMIT_LIST } from "@/constants/queryRouter.constants";
+import { toTitleCase } from "@/utils/text";
 
 interface Proptypes {
   currentLimit: number;
@@ -81,7 +82,7 @@ const TransactionTable = (props: Proptypes) => {
   );
 
   return (
-    <>
+    <div className="mt-5 md:mt-10">
       <Table aria-label="Transaction table" bottomContent={bottomContent}>
         <TableHeader columns={TABLE_COLUMNS}>
           {(column) => (
@@ -107,7 +108,7 @@ const TransactionTable = (props: Proptypes) => {
                       <TableCell>{toDateStandardFromAPI(item.date)}</TableCell>
                     );
                   case "category":
-                    return <TableCell>{item.category}</TableCell>;
+                    return <TableCell>{toTitleCase(item.category)}</TableCell>;
                   case "amount":
                     return <TableCell>{convertToIDR(item.amount)}</TableCell>;
                   case "type":
@@ -180,7 +181,7 @@ const TransactionTable = (props: Proptypes) => {
           )}
         </TableBody>
       </Table>
-    </>
+    </div>
   );
 };
 

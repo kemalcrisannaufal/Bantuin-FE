@@ -4,6 +4,7 @@ import financeServices from "@/services/finance.service";
 import {
   ITransaction,
   ITransactionFilter,
+  ITransactionSummary,
   ITransactionTotal,
 } from "@/type/Finance";
 import { useQuery } from "@tanstack/react-query";
@@ -180,7 +181,24 @@ const useFinance = () => {
     return transactionTotalData?.totalExpense;
   }, [transactionTotalData]);
 
+  const getSummaryByCategories = async (): Promise<ITransactionSummary[]> => {
+    const { data } = await financeServices.getSummaryByCategories(
+      `month=${currentMonth}&year=${currentYear}`
+    );
+    return data.data;
+  };
+
+  const {
+    data: summaryCategoriesData,
+    isLoading: isLoadingSummaryCategoriesData,
+  } = useQuery({
+    queryKey: ["getSummaryByCategories", currentMonth, currentYear],
+    queryFn: getSummaryByCategories,
+    enabled: true,
+  });
+
   return {
+    // Query Router
     currentLimit,
     currentPage,
     handleChangeLimit,
@@ -188,16 +206,21 @@ const useFinance = () => {
     handleChangeDate,
     handleChangeType,
     handleChangeCategory,
-
-    incomeTotal,
-    expenseTotal,
-    isLoadingTransactionTotalData,
-
     setUrl,
 
+    //Total
+    expenseTotal,
+    incomeTotal,
+    isLoadingTransactionTotalData,
+
+    // Summary
+    isLoadingSummaryCategoriesData,
+    summaryCategoriesData,
+
+    // Filter
     filter,
-    setFilter,
     resetFilter,
+    setFilter,
 
     enableAction,
     financeType,

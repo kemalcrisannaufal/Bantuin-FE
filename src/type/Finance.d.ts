@@ -32,9 +32,15 @@ interface ITransactionTotal {
   count: number;
 }
 
+interface ITransactionSummary {
+  _id: "income" | "expense";
+  categories: { category: string; total: number }[];
+}
+
 export {
   ITransaction,
   ITransactionForm,
   ITransactionFilter,
   ITransactionTotal,
+  ITransactionSummary,
 };
