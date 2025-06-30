@@ -12,6 +12,8 @@ const financeServices = {
     instance.put(`${endpoint.FINANCE}/${id}`, payload),
   deleteTransaction: (id: string) =>
     instance.delete(`${endpoint.FINANCE}/${id}`),
+  getTotal: (params?: string) =>
+    instance.get(`${endpoint.FINANCE}/totals?${params}`),
 };
 
 export default financeServices;

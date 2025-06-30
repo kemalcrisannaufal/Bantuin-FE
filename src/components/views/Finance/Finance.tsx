@@ -9,6 +9,7 @@ import DeleteFinanceModal from "./DeleteFinanceModal";
 import UpdateFinanceModal from "./UpdateFinanceModal";
 import { useEffect } from "react";
 import TransactionFilter from "./TransactionFilter";
+import TransactionOverview from "./TransactionOverview";
 
 const Finance = () => {
   const {
@@ -33,6 +34,10 @@ const Finance = () => {
     setFinanceType,
     transactionData,
     setSelectedId,
+
+    incomeTotal,
+    expenseTotal,
+    isLoadingTransactionTotalData,
   } = useFinance();
 
   useEffect(() => {
@@ -45,6 +50,12 @@ const Finance = () => {
 
   return (
     <>
+      <TransactionOverview
+        isLoading={isLoadingTransactionTotalData}
+        incomeTotal={incomeTotal}
+        expenseTotal={expenseTotal}
+      />
+
       <TransactionFilter
         filter={filter}
         handleChangeCategory={handleChangeCategory}

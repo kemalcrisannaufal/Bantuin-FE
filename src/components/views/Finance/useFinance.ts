@@ -1,10 +1,14 @@
 import { DEAFULT_YEAR, DEFAULT_MONTH } from "@/constants/list.constants";
 import { LIMIT_DEFAULT, PAGE_DEFAULT } from "@/constants/queryRouter.constants";
 import financeServices from "@/services/finance.service";
-import { ITransaction, ITransactionFilter } from "@/type/Finance";
+import {
+  ITransaction,
+  ITransactionFilter,
+  ITransactionTotal,
+} from "@/type/Finance";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useMemo, useState } from "react";
 
 const useFinance = () => {
   const [financeType, setFinanceType] = useState<"" | "income" | "expense">("");
@@ -150,6 +154,32 @@ const useFinance = () => {
     enabled: true,
   });
 
+  const getTotals = async (): Promise<ITransactionTotal> => {
+    const { data } = await financeServices.getTotal(
+      `month=${filter.month}&year=${filter.year}`
+    );
+    return data.data;
+  };
+
+  const {
+    data: transactionTotalData,
+    isLoading: isLoadingTransactionTotalData,
+  } = useQuery({
+    queryKey: ["getTotalTransaction", currentMonth, currentYear],
+    queryFn: getTotals,
+    enabled: true,
+  });
+
+  const incomeTotal = useMemo(() => {
+    if (transactionTotalData === undefined) return 0;
+    return transactionTotalData?.totalIncome;
+  }, [transactionTotalData]);
+
+  const expenseTotal = useMemo(() => {
+    if (transactionTotalData === undefined) return 0;
+    return transactionTotalData?.totalExpense;
+  }, [transactionTotalData]);
+
   return {
     currentLimit,
     currentPage,
@@ -158,6 +188,10 @@ const useFinance = () => {
     handleChangeDate,
     handleChangeType,
     handleChangeCategory,
+
+    incomeTotal,
+    expenseTotal,
+    isLoadingTransactionTotalData,
 
     setUrl,
 

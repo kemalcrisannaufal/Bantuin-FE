@@ -1,3 +1,4 @@
+import { ITransaction } from "@/type/Finance";
 import { DateValue } from "@heroui/react";
 
 interface ITransaction {
@@ -24,4 +25,16 @@ interface ITransactionFilter {
   year: number;
 }
 
-export { ITransaction, ITransactionForm, ITransactionFilter };
+interface ITransactionTotal {
+  _id: null;
+  totalIncome: number;
+  totalExpense: number;
+  count: number;
+}
+
+export {
+  ITransaction,
+  ITransactionForm,
+  ITransactionFilter,
+  ITransactionTotal,
+};
