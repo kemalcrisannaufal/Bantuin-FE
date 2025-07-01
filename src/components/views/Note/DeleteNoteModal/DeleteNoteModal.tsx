@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
-import useDeleteFinanceModal from "./useDeleteFinanceModal";
 import {
   Button,
   Modal,
@@ -9,34 +8,35 @@ import {
   ModalHeader,
   Spinner,
 } from "@heroui/react";
+import useDeleteNoteModal from "./useDeleteNoteModal";
 
 interface Proptypes {
   deletedId: string;
   isOpen: boolean;
   onClose: () => void;
   onOpenChange: () => void;
-  refetchTransactions: () => void;
+  refetchNotes: () => void;
   setSelectedDeletedId: Dispatch<SetStateAction<string>>;
 }
 
-const DeleteFinanceModal = (props: Proptypes) => {
+const DeleteNoteModal = (props: Proptypes) => {
   const {
     deletedId,
     isOpen,
     onClose,
     onOpenChange,
-    refetchTransactions,
+    refetchNotes,
     setSelectedDeletedId,
   } = props;
-  const { handleDeleteTransaction, isPendingDelete, isSuccessDelete } =
-    useDeleteFinanceModal();
+  const { handleDeleteNote, isPendingDeleteNote, isSuccessDeleteNote } =
+    useDeleteNoteModal();
 
   useEffect(() => {
-    if (isSuccessDelete) {
-      refetchTransactions();
+    if (isSuccessDeleteNote) {
+      refetchNotes();
       onClose();
     }
-  }, [isSuccessDelete, refetchTransactions, onClose]);
+  }, [isSuccessDeleteNote, refetchNotes, onClose]);
 
   return (
     <Modal
@@ -48,19 +48,17 @@ const DeleteFinanceModal = (props: Proptypes) => {
       }}
     >
       <ModalContent>
-        <ModalHeader>Hapus Data Transaksi</ModalHeader>
+        <ModalHeader>Hapus Note</ModalHeader>
         <ModalBody>
-          <p>Apakah kamu yakin ingin menghapus data transaksi?</p>
+          <p>Apakah kamu yakin ingin menghapus note?</p>
         </ModalBody>
         <ModalFooter>
           <Button
             color="primary"
             variant="solid"
-            onPress={() => handleDeleteTransaction(deletedId)}
-            disabled={isPendingDelete}
-            className="disabled:opacity-50 disabled:cursor-default"
+            onPress={() => handleDeleteNote(deletedId)}
           >
-            {isPendingDelete ? (
+            {isPendingDeleteNote ? (
               <Spinner size="sm" color="white" />
             ) : (
               "Ya, saya yakin"
@@ -72,4 +70,4 @@ const DeleteFinanceModal = (props: Proptypes) => {
   );
 };
 
-export default DeleteFinanceModal;
+export default DeleteNoteModal;

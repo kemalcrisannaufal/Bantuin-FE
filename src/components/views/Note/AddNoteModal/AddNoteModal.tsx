@@ -80,12 +80,13 @@ const AddNoteModal = (props: Proptypes) => {
             <Controller
               control={control}
               name="isPinned"
-              render={({ field: { onChange, ...field } }) => (
+              render={({ field }) => (
                 <Select
                   {...field}
                   label="Sematkan catatan ini?"
                   variant="bordered"
-                  onSelectionChange={(value) => onChange(value)}
+                  isInvalid={errors.isPinned !== undefined}
+                  errorMessage={errors.isPinned?.message}
                 >
                   <SelectItem key={"false"}>Tidak</SelectItem>
                   <SelectItem key={"true"}>Ya</SelectItem>

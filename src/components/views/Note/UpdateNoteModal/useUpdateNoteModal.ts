@@ -2,7 +2,7 @@ import noteServices from "@/services/note.service";
 import { INote, INoteForm } from "@/type/Note";
 import { addToast } from "@heroui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 
@@ -12,26 +12,40 @@ const noteValidationSchema = Yup.object().shape({
   isPinned: Yup.string().required("Disematkan wajib diisi!"),
 });
 
-const useAddNoteModal = () => {
+const useUpdateNoteModal = (id: string) => {
+  const getNoteById = async (): Promise<INote> => {
+    const { data } = await noteServices.getNoteById(id);
+    return data.data;
+  };
+
+  const { data: noteDetailData, isLoading: isLoadingNoteDetailData } = useQuery(
+    {
+      queryKey: ["getNoteById", id],
+      queryFn: getNoteById,
+      enabled: !!id,
+    }
+  );
+
   const {
     control,
     formState: { errors },
     handleSubmit,
     reset,
+    setValue,
   } = useForm({ resolver: yupResolver(noteValidationSchema) });
 
-  const addNote = async (payload: INote) => {
-    const result = await noteServices.addNote(payload);
+  const updateNote = async (payload: INote) => {
+    const result = await noteServices.updateNotes(id, payload);
     return result;
   };
 
   const {
-    mutate: mutateAddNote,
-    isPending: isPendingAddNote,
-    isSuccess: isSuccessAddNote,
+    mutate: mutateUpdateNote,
+    isPending: isPendingUpdateNote,
+    isSuccess: isSuccessUpdateNote,
   } = useMutation({
-    mutationKey: ["addNote"],
-    mutationFn: addNote,
+    mutationKey: ["updateNote"],
+    mutationFn: updateNote,
     onError: (error: IApiError) => {
       addToast({
         title: "Error",
@@ -44,31 +58,35 @@ const useAddNoteModal = () => {
       reset();
       addToast({
         title: "Error",
-        description: "Tambah note sukses!",
+        description: "Update note sukses!",
         color: "success",
         variant: "bordered",
       });
     },
   });
 
-  const handleAddNote = (payload: INoteForm) => {
+  const handleUpdateNote = (payload: INoteForm) => {
     const data: INote = {
       title: payload.title,
       content: payload.content,
       isPinned: payload.isPinned === "true" ? true : false,
     };
 
-    mutateAddNote(data);
+    mutateUpdateNote(data);
   };
 
   return {
+    isLoadingNoteDetailData,
+    noteDetailData,
+
     control,
     errors,
-    handleAddNote,
     handleSubmit,
-    isPendingAddNote,
-    isSuccessAddNote,
+    handleUpdateNote,
+    isPendingUpdateNote,
+    isSuccessUpdateNote,
+    setValue,
   };
 };
 
-export default useAddNoteModal;
+export default useUpdateNoteModal;
