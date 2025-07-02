@@ -12,13 +12,15 @@ const useDeleteNoteModal = () => {
     mutate: mutateDeleteNote,
     isPending: isPendingDeleteNote,
     isSuccess: isSuccessDeleteNote,
+    reset: resetMutateSuccessDeleteNote,
   } = useMutation({
     mutationKey: ["deleteNote"],
     mutationFn: deleteNote,
     onError: (error: IApiError) => {
       addToast({
         title: "Error",
-        description: error.response?.data?.meta?.message,
+        description:
+          error.response?.data?.meta?.message || "Gagal menghapus note!",
         color: "danger",
         variant: "bordered",
       });
@@ -39,6 +41,7 @@ const useDeleteNoteModal = () => {
     handleDeleteNote,
     isPendingDeleteNote,
     isSuccessDeleteNote,
+    resetMutateSuccessDeleteNote,
   };
 };
 

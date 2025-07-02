@@ -9,7 +9,6 @@ import * as Yup from "yup";
 const noteValidationSchema = Yup.object().shape({
   title: Yup.string().required("Judul wajib diisi!"),
   content: Yup.string().required("Catatan wajib diisi!"),
-  isPinned: Yup.string().required("Disematkan wajib diisi!"),
 });
 
 const useUpdateNoteModal = (id: string) => {
@@ -32,7 +31,9 @@ const useUpdateNoteModal = (id: string) => {
     handleSubmit,
     reset,
     setValue,
-  } = useForm({ resolver: yupResolver(noteValidationSchema) });
+  } = useForm({
+    resolver: yupResolver(noteValidationSchema),
+  });
 
   const updateNote = async (payload: INote) => {
     const result = await noteServices.updateNotes(id, payload);
@@ -43,13 +44,15 @@ const useUpdateNoteModal = (id: string) => {
     mutate: mutateUpdateNote,
     isPending: isPendingUpdateNote,
     isSuccess: isSuccessUpdateNote,
+    reset: resetMutateUpdateNote,
   } = useMutation({
     mutationKey: ["updateNote"],
     mutationFn: updateNote,
     onError: (error: IApiError) => {
       addToast({
         title: "Error",
-        description: error.response?.data?.meta?.message,
+        description:
+          error.response?.data?.meta?.message || "Gagal memperbarui note!",
         color: "danger",
         variant: "bordered",
       });
@@ -57,7 +60,7 @@ const useUpdateNoteModal = (id: string) => {
     onSuccess: () => {
       reset();
       addToast({
-        title: "Error",
+        title: "Sukses",
         description: "Update note sukses!",
         color: "success",
         variant: "bordered",
@@ -85,6 +88,8 @@ const useUpdateNoteModal = (id: string) => {
     handleUpdateNote,
     isPendingUpdateNote,
     isSuccessUpdateNote,
+    reset,
+    resetMutateUpdateNote,
     setValue,
   };
 };

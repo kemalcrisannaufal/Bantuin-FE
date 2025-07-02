@@ -5,15 +5,14 @@ import {
   ModalBody,
   ModalContent,
   ModalHeader,
-  Select,
-  SelectItem,
   Skeleton,
   Spinner,
-  Textarea,
 } from "@heroui/react";
 import { Controller } from "react-hook-form";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import useUpdateNoteModal from "./useUpdateNoteModal";
+import TextEditor from "@/components/ui/TextEditor/TextEditor";
+import { cn } from "@/utils/cn";
 
 interface Proptypes {
   isOpen: boolean;
@@ -33,6 +32,7 @@ const UpdateNoteModal = (props: Proptypes) => {
     setSelectedUpdatedId,
     updatedId,
   } = props;
+
   const {
     isLoadingNoteDetailData,
     noteDetailData,
@@ -43,27 +43,44 @@ const UpdateNoteModal = (props: Proptypes) => {
     handleUpdateNote,
     isPendingUpdateNote,
     isSuccessUpdateNote,
+    reset,
+    resetMutateUpdateNote,
     setValue,
   } = useUpdateNoteModal(updatedId);
 
   useEffect(() => {
     if (isSuccessUpdateNote) {
-      setSelectedUpdatedId("");
       refetchNotes();
+      setSelectedUpdatedId("");
       onClose();
+      resetMutateUpdateNote();
     }
-  }, [isSuccessUpdateNote, refetchNotes, onClose, setSelectedUpdatedId]);
+  }, [
+    isSuccessUpdateNote,
+    onClose,
+    refetchNotes,
+    resetMutateUpdateNote,
+    setSelectedUpdatedId,
+  ]);
 
   useEffect(() => {
     if (noteDetailData) {
       setValue("title", noteDetailData.title);
       setValue("content", noteDetailData.content);
-      setValue("isPinned", noteDetailData.isPinned ? "true" : "false");
     }
   }, [noteDetailData, setValue]);
 
+  const handleModalOnClose = () => {
+    reset();
+    onClose();
+  };
+
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={onClose}>
+    <Modal
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      onClose={handleModalOnClose}
+    >
       <ModalContent>
         <ModalHeader>Tambah Catatan</ModalHeader>
         <ModalBody>
@@ -94,45 +111,29 @@ const UpdateNoteModal = (props: Proptypes) => {
             <Controller
               control={control}
               name="content"
-              render={({ field }) => (
+              render={({ field: { onChange, value } }) => (
                 <Skeleton
                   isLoaded={!isLoadingNoteDetailData}
                   className="rounded-xl"
                 >
-                  <Textarea
-                    {...field}
-                    label="Catatan"
-                    variant="bordered"
-                    isInvalid={errors.content !== undefined}
-                    errorMessage={errors.content?.message}
-                  />
-                </Skeleton>
-              )}
-            />
-
-            <Controller
-              control={control}
-              name="isPinned"
-              render={({ field }) => (
-                <Skeleton
-                  isLoaded={!isLoadingNoteDetailData}
-                  className="rounded-xl"
-                >
-                  <Select
-                    {...field}
-                    label="Sematkan catatan ini?"
-                    variant="bordered"
-                    selectedKeys={new Set([field.value])}
-                    onSelectionChange={(keys) => {
-                      const value = Array.from(keys)[0];
-                      field.onChange(value);
-                    }}
-                    isInvalid={!!errors.isPinned}
-                    errorMessage={errors.isPinned?.message}
-                  >
-                    <SelectItem key="false">Tidak</SelectItem>
-                    <SelectItem key="true">Ya</SelectItem>
-                  </Select>
+                  <div className="relative">
+                    <div
+                      className={cn(
+                        errors.content && "border border-danger rounded-lg"
+                      )}
+                    >
+                      <TextEditor
+                        key={`editor-${updatedId}`}
+                        value={value || noteDetailData?.content || ""}
+                        onChange={(value) => onChange(value)}
+                      />
+                    </div>
+                    {errors.content && (
+                      <p className="-bottom-1 left-0 absolute text-danger text-xs">
+                        {errors.content.message}
+                      </p>
+                    )}
+                  </div>
                 </Skeleton>
               )}
             />
@@ -140,10 +141,10 @@ const UpdateNoteModal = (props: Proptypes) => {
             <Button
               type="submit"
               color="primary"
-              disabled={isPendingUpdateNote}
+              disabled={isPendingUpdateNote || isLoadingNoteDetailData}
               className="disabled:opacity-50 disabled:cursor-default"
             >
-              {isPendingUpdateNote ? (
+              {isPendingUpdateNote || isLoadingNoteDetailData ? (
                 <Spinner color="white" size="sm" />
               ) : (
                 "Simpan Catatan"

@@ -1,7 +1,7 @@
 const LIMIT_LIST = [
-  { key: "5", label: "5" },
-  { key: "10", label: "10" },
-  { key: "15", label: "15" },
+  { key: "6", label: "6" },
+  { key: "12", label: "12" },
+  { key: "18", label: "18" },
 ];
 
 const LIMIT_DEFAULT = LIMIT_LIST[0].label;

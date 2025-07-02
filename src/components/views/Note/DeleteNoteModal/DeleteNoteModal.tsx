@@ -28,25 +28,30 @@ const DeleteNoteModal = (props: Proptypes) => {
     refetchNotes,
     setSelectedDeletedId,
   } = props;
-  const { handleDeleteNote, isPendingDeleteNote, isSuccessDeleteNote } =
-    useDeleteNoteModal();
+  const {
+    handleDeleteNote,
+    isPendingDeleteNote,
+    isSuccessDeleteNote,
+    resetMutateSuccessDeleteNote,
+  } = useDeleteNoteModal();
 
   useEffect(() => {
     if (isSuccessDeleteNote) {
       refetchNotes();
+      setSelectedDeletedId("");
       onClose();
+      resetMutateSuccessDeleteNote();
     }
-  }, [isSuccessDeleteNote, refetchNotes, onClose]);
+  }, [
+    isSuccessDeleteNote,
+    refetchNotes,
+    setSelectedDeletedId,
+    onClose,
+    resetMutateSuccessDeleteNote,
+  ]);
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onOpenChange={onOpenChange}
-      onClose={() => {
-        setSelectedDeletedId("");
-        onClose();
-      }}
-    >
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange} onClose={onClose}>
       <ModalContent>
         <ModalHeader>Hapus Note</ModalHeader>
         <ModalBody>
@@ -57,6 +62,8 @@ const DeleteNoteModal = (props: Proptypes) => {
             color="primary"
             variant="solid"
             onPress={() => handleDeleteNote(deletedId)}
+            className="disabled:opacity-50 disabled:cursor-default"
+            disabled={isPendingDeleteNote}
           >
             {isPendingDeleteNote ? (
               <Spinner size="sm" color="white" />

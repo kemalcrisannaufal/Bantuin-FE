@@ -37,3 +37,44 @@ body {
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+.ProseMirror {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.ProseMirror h1 {
+  font-size: 1.5rem;
+  margin: 1rem 0;
+}
+
+.ProseMirror h2 {
+  font-size: 1.25rem;
+  margin: 1rem 0;
+}
+
+.ProseMirror h3 {
+  font-size: 1.125rem;
+  margin: 1rem 0;
+}
+
+.ProseMirror ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.ProseMirror ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.ProseMirror blockquote {
+  border-left: 4px solid #ccc;
+  padding-left: 1rem;
+  color: #666;
+  margin: 1rem 0;
+  font-style: italic;
+}

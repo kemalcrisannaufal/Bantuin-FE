@@ -30,4 +30,19 @@ const toInputDate = (date: string) => {
   return formattedDate;
 };
 
-export { toDateStandard, toDateStandardFromAPI, toInputDate };
+const toLocaleDateTime = (mongoDate: string) => {
+  const date = new Date(mongoDate).toLocaleString("id-ID", {
+    timeZone: "Asia/Jakarta", // Ganti dengan 'Asia/Makassar' atau 'Asia/Jayapura' untuk WITA/WIT
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+
+  return date;
+};
+
+export { toDateStandard, toDateStandardFromAPI, toInputDate, toLocaleDateTime };

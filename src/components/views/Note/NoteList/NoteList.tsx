@@ -1,9 +1,22 @@
 import { INote } from "@/type/Note";
-import { Button, Card, CardBody, Skeleton } from "@heroui/react";
+import {
+  Button,
+  Card,
+  CardBody,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Skeleton,
+} from "@heroui/react";
+import { useRouter } from "next/router";
 import { Dispatch, ReactNode, SetStateAction } from "react";
-import { CiEdit, CiTrash } from "react-icons/ci";
+import { CiEdit, CiMenuKebab, CiStickyNote, CiTrash } from "react-icons/ci";
+import { FaThumbtack } from "react-icons/fa";
 
 interface Proptypes {
+  bottomContent?: ReactNode;
+  handleUpdatePinnedStatus: (id: string) => void;
   isLoading: boolean;
   notesData: INote[] | undefined;
   onOpenDelete: () => void;
@@ -14,6 +27,8 @@ interface Proptypes {
 
 const NoteList = (props: Proptypes) => {
   const {
+    bottomContent,
+    handleUpdatePinnedStatus,
     isLoading,
     notesData,
     onOpenDelete,
@@ -21,6 +36,9 @@ const NoteList = (props: Proptypes) => {
     setSelectedId,
     topContent,
   } = props;
+
+  const { push } = useRouter();
+
   return (
     <>
       <div className="my-5">{topContent}</div>
@@ -35,34 +53,70 @@ const NoteList = (props: Proptypes) => {
                     </h5>
 
                     <div className="flex gap-2">
-                      <Button
-                        isIconOnly
-                        size="sm"
-                        color="primary"
-                        onPress={() => {
-                          setSelectedId(`${note._id}`);
-                          onOpenUpdate();
-                        }}
-                      >
-                        <CiEdit className="text-xl" />
-                      </Button>
-                      <Button
-                        isIconOnly
-                        size="sm"
-                        color="danger"
-                        onPress={() => {
-                          setSelectedId(`${note._id}`);
-                          onOpenDelete();
-                        }}
-                      >
-                        <CiTrash className="text-xl" />
-                      </Button>
+                      <Dropdown>
+                        <DropdownTrigger>
+                          <Button
+                            isIconOnly
+                            size="sm"
+                            className="bg-transparent"
+                          >
+                            <CiMenuKebab />
+                          </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu>
+                          <DropdownItem
+                            key={"detail"}
+                            startContent={<FaThumbtack />}
+                            onPress={() =>
+                              handleUpdatePinnedStatus(`${note._id}`)
+                            }
+                            color="primary"
+                            className="text-primary"
+                          >
+                            {note.isPinned ? "Hapus pin" : "Sematkan"}
+                          </DropdownItem>
+                          <DropdownItem
+                            key={"detail"}
+                            startContent={<CiStickyNote />}
+                            onPress={() => push(`/notes/${note._id}`)}
+                            color="primary"
+                            className="text-primary"
+                          >
+                            Detail
+                          </DropdownItem>
+                          <DropdownItem
+                            key={"edit"}
+                            startContent={<CiEdit />}
+                            onPress={() => {
+                              setSelectedId(`${note._id}`);
+                              onOpenUpdate();
+                            }}
+                            color="primary"
+                            className="text-primary"
+                          >
+                            Edit
+                          </DropdownItem>
+                          <DropdownItem
+                            key={"delete"}
+                            startContent={<CiTrash />}
+                            onPress={() => {
+                              setSelectedId(`${note._id}`);
+                              onOpenDelete();
+                            }}
+                            color="primary"
+                            className="text-danger"
+                          >
+                            Hapus
+                          </DropdownItem>
+                        </DropdownMenu>
+                      </Dropdown>
                     </div>
                   </div>
 
-                  <p className="text-foreground-600 line-clamp-2">
-                    {note.content}
-                  </p>
+                  <div
+                    className="text-foreground-600 line-clamp-2 prose ProseMirror"
+                    dangerouslySetInnerHTML={{ __html: note.content }}
+                  />
                 </CardBody>
               </Card>
             ))
@@ -73,6 +127,13 @@ const NoteList = (props: Proptypes) => {
               />
             ))}
       </div>
+      {!isLoading && notesData?.length === 0 && (
+        <div className="flex justify-center items-center bg-neutral-200 px-3 py-8 rounded-xl w-full text-foreground-600">
+          <p>Catatan tidak ditemukan!</p>
+        </div>
+      )}
+
+      {bottomContent}
     </>
   );
 };

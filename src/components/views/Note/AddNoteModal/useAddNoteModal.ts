@@ -21,21 +21,23 @@ const useAddNoteModal = () => {
   } = useForm({ resolver: yupResolver(noteValidationSchema) });
 
   const addNote = async (payload: INote) => {
-    const result = await noteServices.addNote(payload);
-    return result;
+    const { data } = await noteServices.addNote(payload);
+    return data;
   };
 
   const {
     mutate: mutateAddNote,
     isPending: isPendingAddNote,
     isSuccess: isSuccessAddNote,
+    reset: resetAddNoteMutation,
   } = useMutation({
     mutationKey: ["addNote"],
     mutationFn: addNote,
     onError: (error: IApiError) => {
       addToast({
         title: "Error",
-        description: error.response?.data?.meta?.message,
+        description:
+          error?.response?.data?.meta?.message || "Gagal menambah note!",
         color: "danger",
         variant: "bordered",
       });
@@ -43,7 +45,7 @@ const useAddNoteModal = () => {
     onSuccess: () => {
       reset();
       addToast({
-        title: "Error",
+        title: "Sukses",
         description: "Tambah note sukses!",
         color: "success",
         variant: "bordered",
@@ -68,6 +70,9 @@ const useAddNoteModal = () => {
     handleSubmit,
     isPendingAddNote,
     isSuccessAddNote,
+
+    reset,
+    resetAddNoteMutation,
   };
 };
 

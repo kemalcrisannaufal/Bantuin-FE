@@ -1,65 +1,147 @@
-import { Button, useDisclosure } from "@heroui/react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Button, Input, Pagination, useDisclosure } from "@heroui/react";
 import useNote from "./useNote";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaThumbtack } from "react-icons/fa";
 import AddNoteModal from "./AddNoteModal";
 import NoteList from "./NoteList";
 import UpdateNoteModal from "./UpdateNoteModal/UpdateNoteModal";
 import DeleteNoteModal from "./DeleteNoteModal";
+import { CiMemoPad, CiSearch } from "react-icons/ci";
+import { useEffect } from "react";
 
 const Note = () => {
   const {
-    isLoadingNotesData,
-    notesData,
-    refetchNotesData,
+    currentPage,
+    currentSearch,
+    handleChangePage,
+    handleChangeSearch,
+    setURL,
+
     selectedId,
     setSelectedId,
-  } = useNote();
 
-  console.log(notesData);
+    isLoadingUnpinnedNotesData,
+    unpinnedNotesData,
+
+    isLoadingPinnedNotesData,
+    pinnedNotesData,
+
+    isRefetching,
+    refetchNotes,
+
+    handleUpdateNotePinnedStatus,
+    isSuccessUpdateNotePinnedStatus,
+  } = useNote();
 
   const addNoteModal = useDisclosure();
   const updateNoteModal = useDisclosure();
   const deleteNoteModal = useDisclosure();
 
+  useEffect(() => {
+    setURL();
+  }, []);
+
+  useEffect(() => {
+    if (isSuccessUpdateNotePinnedStatus) {
+      refetchNotes();
+    }
+  }, [isSuccessUpdateNotePinnedStatus]);
+
   const topContentPinnedNoteList = (
     <div className="flex justify-between items-center">
-      <h2 className="font-semibold text-primary text-xl">Disematkan</h2>
-
-      <Button
-        color="primary"
-        startContent={<FaPlus />}
-        onPress={addNoteModal.onOpen}
-      >
-        Tambah Catatan
-      </Button>
+      <div className="flex items-center gap-2">
+        <FaThumbtack className="text-primary text-xl" />
+        <h2 className="font-semibold text-primary text-xl">Disematkan</h2>
+      </div>
     </div>
   );
 
+  const topContentUnpinnedNoteList = (
+    <div className="flex items-center gap-2">
+      <CiMemoPad className="text-primary text-xl" />
+      <h2 className="font-semibold text-primary text-xl">Semua Catatan</h2>
+    </div>
+  );
+
+  const bottomContentUnpinnedNoteList = (
+    <>
+      {Number(unpinnedNotesData?.pagination.totalPage) > 1 && (
+        <div className="flex justify-center items-center mt-5">
+          <Pagination
+            initialPage={Number(currentPage)}
+            total={Number(unpinnedNotesData?.pagination.totalPage)}
+            onChange={(page) => handleChangePage(page)}
+            className="cursor-pointer"
+            isCompact
+          />
+        </div>
+      )}
+    </>
+  );
+
   return (
-    <div>
+    <>
+      <div className="flex items-center gap-5">
+        <Input
+          placeholder="Cari catatan..."
+          variant="bordered"
+          onChange={(e) => handleChangeSearch(e)}
+          startContent={<CiSearch className="text-xl" />}
+          size="lg"
+        />
+
+        <Button
+          color="primary"
+          startContent={<FaPlus />}
+          onPress={addNoteModal.onOpen}
+          className="min-w-max"
+        >
+          <span className="hidden md:block">Tambah</span>
+          Catatan
+        </Button>
+      </div>
+
+      {currentSearch === "" &&
+        pinnedNotesData &&
+        pinnedNotesData.length > 0 && (
+          <NoteList
+            handleUpdatePinnedStatus={handleUpdateNotePinnedStatus}
+            isLoading={isLoadingPinnedNotesData || isRefetching}
+            notesData={pinnedNotesData}
+            topContent={topContentPinnedNoteList}
+            setSelectedId={setSelectedId}
+            onOpenUpdate={updateNoteModal.onOpen}
+            onOpenDelete={deleteNoteModal.onOpen}
+          />
+        )}
+
       <NoteList
-        isLoading={isLoadingNotesData}
-        notesData={notesData}
-        topContent={topContentPinnedNoteList}
+        bottomContent={bottomContentUnpinnedNoteList}
+        handleUpdatePinnedStatus={handleUpdateNotePinnedStatus}
+        isLoading={isLoadingUnpinnedNotesData || isRefetching}
+        notesData={unpinnedNotesData?.data}
+        topContent={topContentUnpinnedNoteList}
         setSelectedId={setSelectedId}
         onOpenUpdate={updateNoteModal.onOpen}
         onOpenDelete={deleteNoteModal.onOpen}
       />
 
-      <AddNoteModal {...addNoteModal} refetchNotes={refetchNotesData} />
+      <AddNoteModal {...addNoteModal} refetchNotes={refetchNotes} />
+
       <UpdateNoteModal
         {...updateNoteModal}
-        refetchNotes={refetchNotesData}
+        refetchNotes={refetchNotes}
         setSelectedUpdatedId={setSelectedId}
         updatedId={selectedId}
       />
+
       <DeleteNoteModal
         {...deleteNoteModal}
-        refetchNotes={refetchNotesData}
+        refetchNotes={refetchNotes}
         deletedId={selectedId}
         setSelectedDeletedId={setSelectedId}
       />
-    </div>
+    </>
   );
 };
 
