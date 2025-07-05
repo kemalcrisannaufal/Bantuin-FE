@@ -93,14 +93,14 @@ const Todos = () => {
         </Select>
 
         <Select
-          className="w-full max-w-32"
+          className="w-full max-w-42"
           defaultSelectedKeys={new Set([`${currentTodosStatus}`])}
           label="Status"
           onChange={(e) => handleChangeTodosStatus(e)}
         >
           <SelectItem key="">Semua</SelectItem>
-          <SelectItem key="pending">Pending</SelectItem>
-          <SelectItem key="completed">Completed</SelectItem>
+          <SelectItem key="pending">Belum Selesai</SelectItem>
+          <SelectItem key="completed">Selesai</SelectItem>
         </Select>
 
         <Select

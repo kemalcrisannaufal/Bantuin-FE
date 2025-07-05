@@ -78,3 +78,44 @@ body {
   margin: 1rem 0;
   font-style: italic;
 }
+
+.fc .fc-button {
+  background-color: #006fee;
+  border: none;
+  color: white;
+}
+
+.fc .fc-button:hover {
+  background-color: #338ef7;
+}
+
+.fc .fc-button:active,
+.fc .fc-button.fc-button-active {
+  background-color: #338ef7;
+}
+
+.fc .fc-day-today {
+  background-color: #cce3fd !important;
+}
+
+.fc .fc-daygrid-event {
+  background-color: #006fee;
+  color: white;
+  border-radius: 0.375rem;
+  padding: 0.3rem 0.5rem;
+  max-width: 100%;
+  white-space: normal;
+  word-wrap: break-word;
+  word-break: break-word;
+  margin-bottom: 0.15rem;
+}
+
+.fc .event-pending {
+  background-color: #f7b750 !important;
+  border: none !important;
+}
+
+/* .fc .event-completed {
+  background-color: #17c964 !important;
+  border: none !important;
+} */

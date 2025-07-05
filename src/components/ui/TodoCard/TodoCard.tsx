@@ -62,7 +62,7 @@ const TodoCard = (props: Proptypes) => {
 
             <div className="w-full">
               <div className="flex justify-between items-center">
-                <div className="flex items-center gap-3">
+                <div className="flex items-start gap-3">
                   <h5 className="font-semibold text-foreground-700 text-lg">
                     {todo.title}
                   </h5>
@@ -71,10 +71,10 @@ const TodoCard = (props: Proptypes) => {
                     size="sm"
                     radius="sm"
                     color={todo.status === "completed" ? "success" : "warning"}
-                    variant="bordered"
-                    className="capitalize"
+                    variant="solid"
+                    className="mt-1 text-white capitalize"
                   >
-                    {todo.status}
+                    {todo.status === "completed" ? "Selesai" : "Belum Selesai"}
                   </Chip>
                 </div>
 
