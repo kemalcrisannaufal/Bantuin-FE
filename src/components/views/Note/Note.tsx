@@ -9,15 +9,10 @@ import DeleteNoteModal from "./DeleteNoteModal";
 import { CiMemoPad } from "react-icons/ci";
 import { useEffect } from "react";
 import SearchInput from "@/components/ui/SearchInput";
+import useUrl from "@/hooks/useUrl";
 
 const Note = () => {
   const {
-    currentPage,
-    currentSearch,
-    handleChangePage,
-    handleChangeSearch,
-    setURL,
-
     selectedId,
     setSelectedId,
 
@@ -34,12 +29,21 @@ const Note = () => {
     isSuccessUpdateNotePinnedStatus,
   } = useNote();
 
+  const {
+    currentPage,
+    currentSearch,
+    handleChangePage,
+    handleChangeSearch,
+
+    setUrl,
+  } = useUrl();
+
   const addNoteModal = useDisclosure();
   const updateNoteModal = useDisclosure();
   const deleteNoteModal = useDisclosure();
 
   useEffect(() => {
-    setURL();
+    setUrl();
   }, []);
 
   useEffect(() => {

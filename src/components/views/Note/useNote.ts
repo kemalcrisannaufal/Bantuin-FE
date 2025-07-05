@@ -1,53 +1,13 @@
-import { DELAY } from "@/constants/list.constants";
-import { LIMIT_DEFAULT, PAGE_DEFAULT } from "@/constants/queryRouter.constants";
-import useDebounce from "@/hooks/useDebounce";
+import useUrl from "@/hooks/useUrl";
 import noteServices from "@/services/note.service";
 import { INote } from "@/type/Note";
 import { addToast } from "@heroui/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/router";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 
 const useNote = () => {
-  const router = useRouter();
-  const debounce = useDebounce();
   const [selectedId, setSelectedId] = useState<string>("");
-
-  const currentLimit = router.query.limit;
-  const currentPage = router.query.page;
-  const currentSearch = router.query.search;
-
-  const setURL = () => {
-    router.replace({
-      query: {
-        limit: currentLimit || LIMIT_DEFAULT,
-        page: currentPage || PAGE_DEFAULT,
-        search: currentSearch || "",
-      },
-    });
-  };
-
-  const handleChangePage = (page: number) => {
-    router.replace({
-      query: {
-        ...router.query,
-        page,
-      },
-    });
-  };
-
-  const handleChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    const search = e.target.value;
-    debounce(() => {
-      router.replace({
-        query: {
-          ...router.query,
-          search,
-          page: PAGE_DEFAULT,
-        },
-      });
-    }, DELAY);
-  };
+  const { currentLimit, currentPage, currentSearch } = useUrl();
 
   const getPinnedNotes = async (): Promise<INote[]> => {
     const { data } = await noteServices.getNotes(`isPinned=true`);
@@ -134,12 +94,6 @@ const useNote = () => {
     mutateUpdateNotePinnedStatus(id);
 
   return {
-    currentPage,
-    currentSearch,
-    handleChangePage,
-    handleChangeSearch,
-    setURL,
-
     selectedId,
     setSelectedId,
 
