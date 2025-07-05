@@ -1,7 +1,8 @@
 const endpoint = {
   AUTH: "/auth",
-  FINANCE: "/transaction",
-  NOTE: "/note",
+  FINANCE: "/transactions",
+  NOTE: "/notes",
+  TODO: "/todos",
 };
 
 export default endpoint;

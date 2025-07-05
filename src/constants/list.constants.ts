@@ -16,6 +16,8 @@ const MONTHS = [
   { key: "12", label: "Desember" },
 ];
 
+const DAY = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+
 const YEARS = Array.from({ length: 8 }, (_, i) => {
   return {
     key: String(new Date().getFullYear() - 2 + i),
@@ -43,4 +45,4 @@ const COLORS = [
 
 const DELAY = 750;
 
-export { DEFAULT_MONTH, DEAFULT_YEAR, MONTHS, YEARS, COLORS, DELAY };
+export { DEFAULT_MONTH, DEAFULT_YEAR, MONTHS, DAY, YEARS, COLORS, DELAY };

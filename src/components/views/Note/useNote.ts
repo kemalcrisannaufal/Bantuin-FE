@@ -119,7 +119,6 @@ const useNote = () => {
       });
     },
     onSuccess: (result) => {
-      console.log(result);
       addToast({
         title: "Sukses",
         description: `Sukses ${

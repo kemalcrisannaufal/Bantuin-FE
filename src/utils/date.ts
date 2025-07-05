@@ -1,28 +1,43 @@
-import { MONTHS } from "@/constants/list.constants";
+import { DAY, MONTHS } from "@/constants/list.constants";
 import { DateValue } from "@heroui/react";
-import { parseDate } from "@internationalized/date";
+import { parseAbsoluteToLocal, parseDate } from "@internationalized/date";
 
 const toDateStandard = (date: DateValue) => {
   const year = date.year;
   const month = date.month;
   const day = date.day;
 
-  const dateStandard = `${year}-${month.toString().padStart(2, "0")}-${day
-    .toString()
-    .padStart(2, "0")}`;
+  const hour = "hour" in date ? date.hour : 0;
+  const minute = "minute" in date ? date.minute : 0;
 
-  return dateStandard;
+  const localDate = new Date(year, month - 1, day, hour, minute, 0);
+
+  return localDate.toISOString();
 };
 
-const toDateStandardFromAPI = (date: string) => {
-  const formattedDate = date.split("T")[0];
-  const newDate = new Date(formattedDate);
+const toDateStandardFromAPI = (
+  dateUnformatted: string,
+  withTime: boolean = false
+) => {
+  const [date, time] = dateUnformatted.split("T");
 
+  const newDate = new Date(date);
   const year = newDate.getFullYear();
   const month = MONTHS[newDate.getMonth()].label;
-  const day = newDate.getDay();
+  const day = newDate.getDate();
+  const dayName = DAY[newDate.getDay()];
 
-  return `${day.toString().padStart(2, "0")} ${month}, ${year}`;
+  let standardDate = `${dayName}, ${day
+    .toString()
+    .padStart(2, "0")} ${month} ${year}`;
+
+  if (withTime) {
+    const hour = Number(time.split(":")[0]) + 7;
+    const minute = time.split(":")[1];
+    standardDate += ` - ${hour.toString().padStart(2, "0")}.${minute} WIB`;
+  }
+
+  return standardDate;
 };
 
 const toInputDate = (date: string) => {
@@ -30,9 +45,14 @@ const toInputDate = (date: string) => {
   return formattedDate;
 };
 
+const toInputDateTime = (date: string | undefined) => {
+  const formattedDate = parseAbsoluteToLocal(`${date}`);
+  return formattedDate;
+};
+
 const toLocaleDateTime = (mongoDate: string) => {
   const date = new Date(mongoDate).toLocaleString("id-ID", {
-    timeZone: "Asia/Jakarta", // Ganti dengan 'Asia/Makassar' atau 'Asia/Jayapura' untuk WITA/WIT
+    timeZone: "Asia/Jakarta",
     weekday: "long",
     year: "numeric",
     month: "long",
@@ -45,4 +65,18 @@ const toLocaleDateTime = (mongoDate: string) => {
   return date;
 };
 
-export { toDateStandard, toDateStandardFromAPI, toInputDate, toLocaleDateTime };
+const getTodayDate = () => {
+  const date = new Date();
+  return `${date.getDate()} ${
+    MONTHS[date.getMonth()].label
+  }, ${date.getFullYear()}`;
+};
+
+export {
+  toDateStandard,
+  toDateStandardFromAPI,
+  toInputDate,
+  toInputDateTime,
+  toLocaleDateTime,
+  getTodayDate,
+};

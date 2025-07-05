@@ -1,5 +1,5 @@
 import { JSX } from "react";
-import { CiCalendarDate, CiHome, CiStickyNote, CiWallet } from "react-icons/ci";
+import { CiHome, CiMemoPad, CiStickyNote, CiWallet } from "react-icons/ci";
 
 type NavItem = {
   name: string;
@@ -21,9 +21,9 @@ const NAV_ITEMS: NavItem[] = [
     icon: <CiWallet className={iconClassname} />,
   },
   {
-    name: "Kalender",
-    href: "/calendar",
-    icon: <CiCalendarDate className={iconClassname} />,
+    name: "Tugas",
+    href: "/todos",
+    icon: <CiMemoPad className={iconClassname} />,
   },
   {
     name: "Catatan",

@@ -1,13 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Input, Pagination, useDisclosure } from "@heroui/react";
+import { Button, Pagination, useDisclosure } from "@heroui/react";
 import useNote from "./useNote";
 import { FaPlus, FaThumbtack } from "react-icons/fa";
 import AddNoteModal from "./AddNoteModal";
 import NoteList from "./NoteList";
 import UpdateNoteModal from "./UpdateNoteModal/UpdateNoteModal";
 import DeleteNoteModal from "./DeleteNoteModal";
-import { CiMemoPad, CiSearch } from "react-icons/ci";
+import { CiMemoPad } from "react-icons/ci";
 import { useEffect } from "react";
+import SearchInput from "@/components/ui/SearchInput";
 
 const Note = () => {
   const {
@@ -82,12 +83,9 @@ const Note = () => {
   return (
     <>
       <div className="flex items-center gap-5">
-        <Input
+        <SearchInput
           placeholder="Cari catatan..."
-          variant="bordered"
-          onChange={(e) => handleChangeSearch(e)}
-          startContent={<CiSearch className="text-xl" />}
-          size="lg"
+          onChange={handleChangeSearch}
         />
 
         <Button
