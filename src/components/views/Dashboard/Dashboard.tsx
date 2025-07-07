@@ -9,12 +9,14 @@ const Dashboard = () => {
 
   return (
     <>
-      <div className="flex items-center gap-3 mb-8 md:text-xl lg:text-2xl">
-        Halo,
-        <span className="font-semibold text-primary">
-          {session.data?.user?.fullname}!
-        </span>
-        Siap jalani hari ini?
+      <div className="flex items-center gap-3 mb-8 text-lg md:text-xl lg:text-2xl">
+        <h2>
+          Halo,{" "}
+          <span className="inline font-semibold text-primary">
+            {session.data?.user?.fullname}!
+          </span>{" "}
+          Siap jalani hari ini?
+        </h2>
       </div>
 
       <div className="flex xl:flex-row flex-col gap-5">
