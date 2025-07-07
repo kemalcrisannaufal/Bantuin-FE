@@ -1,5 +1,7 @@
 import { useSession } from "next-auth/react";
-import { getTodayDate } from "@/utils/date";
+import FinanceSummary from "./FinanceSummary";
+import TodayTodos from "./TodayTodos";
+import PinnedNotes from "./FinanceSummary/PinnedNotes";
 
 const Dashboard = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -7,20 +9,20 @@ const Dashboard = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center gap-3">
-        <div>
-          <h2 className="text-l md:text-xl lg:text-2xl">
-            Halo,{" "}
-            <span className="font-semibold text-primary">
-              {session.data?.user?.fullname}!
-            </span>{" "}
-            Siap jalani hari ini?
-          </h2>
-        </div>
-
-        <span className="min-w-max font-medium text-primary text-xs md:text-base">
-          {getTodayDate()}
+      <div className="flex items-center gap-3 mb-8 md:text-xl lg:text-2xl">
+        Halo,
+        <span className="font-semibold text-primary">
+          {session.data?.user?.fullname}!
         </span>
+        Siap jalani hari ini?
+      </div>
+
+      <div className="flex xl:flex-row flex-col gap-5">
+        <div className="flex flex-col gap-4 w-full xl:w-2/3">
+          <FinanceSummary />
+          <PinnedNotes />
+        </div>
+        <TodayTodos />
       </div>
     </>
   );
