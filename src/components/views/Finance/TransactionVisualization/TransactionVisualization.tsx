@@ -6,6 +6,7 @@ import { ITransactionSummary } from "@/type/Finance";
 import { Select, SelectItem, Spinner } from "@heroui/react";
 import useTransactionVisualization from "./useTransactionVisualization";
 import { toTitleCase } from "@/utils/text";
+import Image from "next/image";
 
 interface Proptypes {
   expenseTotal: number;
@@ -61,7 +62,13 @@ const TransactionVisualization = (props: Proptypes) => {
           <Spinner color="primary" />
         </div>
       ) : incomeTotal === 0 && expenseTotal === 0 ? (
-        <div className="flex justify-center items-center bg-neutral-200 p-4 rounded-xl w-full text-foreground-600">
+        <div className="flex justify-center items-center bg-white p-4 border border-neutral-300 rounded-xl w-full text-foreground-600">
+          <Image
+            src="/images/illustrations/data-not-found.jpg"
+            alt="data not found"
+            width={150}
+            height={150}
+          />
           Data Transaksi Tidak Ditemukan
         </div>
       ) : (

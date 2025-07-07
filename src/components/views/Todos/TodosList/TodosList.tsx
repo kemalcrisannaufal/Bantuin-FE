@@ -1,6 +1,7 @@
 import TodoCard from "@/components/ui/TodoCard";
 import { ITodo } from "@/type/Todo";
 import { Skeleton } from "@heroui/react";
+import Image from "next/image";
 import { Dispatch, ReactNode, SetStateAction } from "react";
 
 interface Proptypes {
@@ -57,7 +58,13 @@ const TodosList = (props: Proptypes) => {
           ))}
 
       {isEmpty && (
-        <div className="flex justify-center items-center bg-neutral-200 px-5 py-3 rounded-xl w-full h-32 text-foreground-600 text-xl">
+        <div className="flex justify-center items-center bg-white px-5 py-3 border border-neutral-300 rounded-xl w-full text-foreground-600 text-xl">
+          <Image
+            src="/images/illustrations/data-not-found.jpg"
+            alt="data not found"
+            width={150}
+            height={150}
+          />
           Tugas tidak ditemukan!
         </div>
       )}

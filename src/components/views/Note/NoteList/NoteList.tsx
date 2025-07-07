@@ -9,6 +9,7 @@ import {
   DropdownTrigger,
   Skeleton,
 } from "@heroui/react";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { Dispatch, ReactNode, SetStateAction } from "react";
 import { CiEdit, CiMenuKebab, CiStickyNote, CiTrash } from "react-icons/ci";
@@ -128,7 +129,13 @@ const NoteList = (props: Proptypes) => {
             ))}
       </div>
       {!isLoading && notesData?.length === 0 && (
-        <div className="flex justify-center items-center bg-neutral-200 px-3 py-8 rounded-xl w-full text-foreground-600">
+        <div className="flex justify-center items-center bg-white px-5 py-3 border border-neutral-300 rounded-xl w-full text-foreground-600 text-xl">
+          <Image
+            src="/images/illustrations/data-not-found.jpg"
+            alt="data not found"
+            width={150}
+            height={150}
+          />
           <p>Catatan tidak ditemukan!</p>
         </div>
       )}

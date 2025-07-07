@@ -28,14 +28,17 @@ const MainLayoutSidebar = (props: Proptypes) => {
         )}
       >
         <div>
-          <div className="flex justify-center items-center mt-8">
+          <Link
+            href={"/dashboard"}
+            className="flex justify-center items-center mt-8"
+          >
             <Image
               src={"/images/general/logo-no-bg.png"}
               alt="logo"
               width={150}
               height={150}
             />
-          </div>
+          </Link>
 
           <Listbox
             aria-label="dashboard-menu"
