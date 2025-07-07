@@ -15,7 +15,7 @@ const AuthLayout = (props: Proptypes) => {
       <div className="flex md:flex-row flex-col justify-center items-center gap-5 w-full">
         <div>
           <Image
-            src={"/images/general/logo.png"}
+            src={"/images/general/logo-no-bg.png"}
             alt="logo"
             width={350}
             height={350}
