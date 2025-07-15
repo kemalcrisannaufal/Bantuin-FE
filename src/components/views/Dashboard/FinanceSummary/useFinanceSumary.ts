@@ -19,6 +19,7 @@ const useFinanceSummary = () => {
     queryKey: ["getTotalTransaction"],
     queryFn: getTotals,
     enabled: true,
+    refetchOnWindowFocus: false,
   });
 
   const expenseTotal = useMemo(() => {
@@ -45,6 +46,7 @@ const useFinanceSummary = () => {
     queryKey: ["getSummaryByCategories"],
     queryFn: getSummaryByCategories,
     enabled: true,
+    refetchOnWindowFocus: false,
   });
 
   return {

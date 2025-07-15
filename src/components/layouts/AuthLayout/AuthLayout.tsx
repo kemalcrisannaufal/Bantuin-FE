@@ -13,9 +13,9 @@ const AuthLayout = (props: Proptypes) => {
     <div className="flex flex-col justify-center items-center min-h-screen">
       <PageHead title={title} />
       <div className="flex md:flex-row flex-col justify-center items-center gap-5 w-full">
-        <div>
+        <div className="relative w-[250px] md:w-[350px] h-[250px] md:h-[350px]">
           <Image
-            src={"/images/general/logo-no-bg.png"}
+            src={"/images/general/logo.png"}
             alt="logo"
             width={350}
             height={350}

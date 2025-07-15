@@ -1,21 +1,24 @@
-import noteServices from "@/services/note.service";
-import { INote } from "@/type/Note";
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const useDashboard = () => {
-  const getPinnedNotes = async (): Promise<INote[]> => {
-    const { data } = await noteServices.getNotes(`isPinned=true`);
+  const getAffirmation = async (): Promise<{ affirmation: string }> => {
+    const { data } = await axios.get("/api/affirmations");
     return data.data;
   };
 
-  const { data: pinnedNotesData, isLoading: isLoadingPinnedNotesData } =
+  const { data: affirmationData, isLoading: isLoadingAffirmationData } =
     useQuery({
-      queryKey: ["getPinnedNotes"],
-      queryFn: getPinnedNotes,
+      queryKey: ["getAffirmation"],
+      queryFn: getAffirmation,
       enabled: true,
+      refetchOnWindowFocus: false,
     });
 
-  return { isLoadingPinnedNotesData, pinnedNotesData };
+  return {
+    affirmationData,
+    isLoadingAffirmationData,
+  };
 };
 
 export default useDashboard;

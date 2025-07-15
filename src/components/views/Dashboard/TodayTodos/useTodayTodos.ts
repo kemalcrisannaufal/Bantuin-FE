@@ -12,6 +12,7 @@ const useTodayTodos = () => {
     queryKey: ["getTodayTodos"],
     queryFn: getTodayTodos,
     enabled: true,
+    refetchOnWindowFocus: false,
   });
 
   return { isLoadingTodayTodos, todayTodos };

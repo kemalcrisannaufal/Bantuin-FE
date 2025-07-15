@@ -153,6 +153,7 @@ const useFinance = () => {
     ],
     queryFn: getTransactions,
     enabled: true,
+    refetchOnWindowFocus: false,
   });
 
   const getTotals = async (): Promise<ITransactionTotal> => {
@@ -169,6 +170,7 @@ const useFinance = () => {
     queryKey: ["getTotalTransaction", currentMonth, currentYear],
     queryFn: getTotals,
     enabled: true,
+    refetchOnWindowFocus: false,
   });
 
   const incomeTotal = useMemo(() => {
@@ -195,6 +197,7 @@ const useFinance = () => {
     queryKey: ["getSummaryByCategories", currentMonth, currentYear],
     queryFn: getSummaryByCategories,
     enabled: true,
+    refetchOnWindowFocus: false,
   });
 
   return {

@@ -23,6 +23,7 @@ const useNote = () => {
     queryKey: ["getPinnedNotes"],
     queryFn: getPinnedNotes,
     enabled: true,
+    refetchOnWindowFocus: false,
   });
 
   const getNotes = async (): Promise<{
@@ -48,6 +49,7 @@ const useNote = () => {
     queryKey: ["getNotes", currentLimit, currentPage, currentSearch],
     queryFn: getNotes,
     enabled: true,
+    refetchOnWindowFocus: false,
   });
 
   const refetchNotes = () => {

@@ -37,7 +37,7 @@ const MainLayoutSidebar = (props: Proptypes) => {
               alt="logo"
               width={150}
               height={150}
-            />
+            />  
           </Link>
 
           <Listbox
