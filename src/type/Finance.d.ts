@@ -10,6 +10,8 @@ interface ITransaction {
   category: string;
   type: "income" | "expense";
   userId?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface ITransactionForm

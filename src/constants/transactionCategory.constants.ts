@@ -44,7 +44,7 @@ const EXPENSE_CATEGORIES: ICategory[] = [
     label: "Transportasi",
   },
   {
-    key: "tagihan (listrik/air/internet)",
+    key: "tagihan (Listrik/Air/Internet)",
     label: "Tagihan (Listrik/Air/Internet)",
   },
   {

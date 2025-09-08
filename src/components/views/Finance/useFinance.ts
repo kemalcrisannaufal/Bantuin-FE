@@ -7,9 +7,11 @@ import {
   ITransactionSummary,
   ITransactionTotal,
 } from "@/type/Finance";
+import { addToast } from "@heroui/react";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { ChangeEvent, useMemo, useState } from "react";
+import * as XLSX from "xlsx";
 
 const useFinance = () => {
   const [financeType, setFinanceType] = useState<"" | "income" | "expense">("");
@@ -200,6 +202,51 @@ const useFinance = () => {
     refetchOnWindowFocus: false,
   });
 
+  const handleExportData = () => {
+    if (
+      !transactionData ||
+      !transactionData?.data ||
+      transactionData?.data?.length === 0
+    ) {
+      addToast({
+        title: "Error",
+        description: "Data kosong atau tidak ditemukan!",
+        color: "danger",
+        variant: "bordered",
+      });
+    }
+
+    const formattedData = transactionData!.data.map((item) => ({
+      "Tanggal transaksi": new Date(item.date).toLocaleDateString("id-ID"),
+      "Jenis Transaksi": item.type === "income" ? "Pemasukan" : "Pengeluaran",
+      Kategori: item.category,
+      "Nama Transaksi": item.name,
+      Deskripsi: item.description,
+      "Jumlah Amount": item.amount,
+      "Tanggal Dibuat": new Date(item.createdAt!).toLocaleDateString("id-ID"),
+      ID: item._id,
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(formattedData);
+
+    const columnWidths = [
+      { wch: 15 },
+      { wch: 15 },
+      { wch: 20 },
+      { wch: 25 },
+      { wch: 30 },
+      { wch: 15 },
+      { wch: 15 },
+      { wch: 25 },
+    ];
+
+    worksheet["!cols"] = columnWidths;
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Laporan Keuangan");
+    XLSX.writeFile(workbook, `data.xlsx`);
+  };
+
   return {
     // Query Router
     currentLimit,
@@ -234,6 +281,8 @@ const useFinance = () => {
     setFinanceType,
     setSelectedId,
     transactionData,
+
+    handleExportData,
   };
 };
 

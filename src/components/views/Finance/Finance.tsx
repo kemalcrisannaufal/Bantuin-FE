@@ -42,6 +42,8 @@ const Finance = () => {
     setFinanceType,
     setSelectedId,
     transactionData,
+
+    handleExportData,
   } = useFinance();
 
   useEffect(() => {
@@ -65,7 +67,9 @@ const Finance = () => {
         handleChangeCategory={handleChangeCategory}
         handleChangeDate={handleChangeDate}
         handleChangeType={handleChangeType}
+        handleExportData={handleExportData}
         resetFilter={resetFilter}
+        totalData={transactionData?.pagination.total || 0}
       />
 
       <TransactionVisualization
